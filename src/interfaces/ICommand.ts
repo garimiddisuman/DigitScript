@@ -5,11 +5,12 @@ export interface ExecutionResult {
   shouldHalt: boolean;
   newProgramCounter?: number;
   error?: string;
+  stepCount?: number;
 }
 
 export interface ICommand {
   readonly opcode: number;
   readonly operandCount: number;
-  
+
   execute(memory: IMemory, operands: number[]): ExecutionResult;
 }
