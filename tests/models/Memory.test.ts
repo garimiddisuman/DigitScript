@@ -12,7 +12,7 @@ describe("Memory", () => {
     it("should initialize all memory locations to 0", () => {
       expect(memory.read(1)).toBe(0);
       expect(memory.read(500)).toBe(0);
-      expect(memory.read(999)).toBe(0);
+      expect(memory.read(1000)).toBe(0);
     });
   });
 
@@ -25,11 +25,11 @@ describe("Memory", () => {
     it("should write multiple values to different locations", () => {
       memory.write(1, 100);
       memory.write(500, 200);
-      memory.write(999, 300);
+      memory.write(1000, 300);
 
       expect(memory.read(1)).toBe(100);
       expect(memory.read(500)).toBe(200);
-      expect(memory.read(999)).toBe(300);
+      expect(memory.read(1000)).toBe(300);
     });
 
     it("should throw error when writing to location 0", () => {
@@ -39,8 +39,8 @@ describe("Memory", () => {
     });
 
     it("should throw error when writing to location 1001", () => {
-      expect(() => memory.write(1002, 100)).toThrow(
-        "Memory access out of bounds: 1002 (valid range: 1-1001)",
+      expect(() => memory.write(1001, 100)).toThrow(
+        "Memory access out of bounds: 1001 (valid range: 1-1000)",
       );
     });
 
@@ -59,13 +59,13 @@ describe("Memory", () => {
 
     it("should throw error when reading from location 0", () => {
       expect(() => memory.read(0)).toThrow(
-        "Memory access out of bounds: 0 (valid range: 1-1001)",
+        "Memory access out of bounds: 0 (valid range: 1-1000)",
       );
     });
 
     it("should throw error when reading from location 1001", () => {
-      expect(() => memory.read(1002)).toThrow(
-        "Memory access out of bounds: 1002 (valid range: 1-1001)",
+      expect(() => memory.read(1001)).toThrow(
+        "Memory access out of bounds: 1001 (valid range: 1-1000)",
       );
     });
 
@@ -80,13 +80,13 @@ describe("Memory", () => {
     it("should reset all memory locations to 0", () => {
       memory.write(1, 100);
       memory.write(500, 200);
-      memory.write(999, 300);
+      memory.write(1000, 300);
 
       memory.reset();
 
       expect(memory.read(1)).toBe(0);
       expect(memory.read(500)).toBe(0);
-      expect(memory.read(999)).toBe(0);
+      expect(memory.read(1000)).toBe(0);
     });
   });
 

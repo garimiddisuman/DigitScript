@@ -4,14 +4,18 @@ export class Memory implements IMemory {
   private memory: Int32Array;
   private static readonly MEMORY_START = 1;
 
+  private get maxLocation(): number {
+    return this.memory.length - 1;
+  }
+
   constructor(size: number) {
     this.memory = new Int32Array(size + Memory.MEMORY_START);
   }
 
   read(location: number): number {
-    if (location < Memory.MEMORY_START || location >= this.memory.length) {
+    if (location < Memory.MEMORY_START || location > this.maxLocation) {
       throw new Error(
-        `Memory access out of bounds: ${location} (valid range: ${Memory.MEMORY_START}-${this.memory.length})`,
+        `Memory access out of bounds: ${location} (valid range: ${Memory.MEMORY_START}-${this.maxLocation})`,
       );
     }
 
@@ -19,9 +23,9 @@ export class Memory implements IMemory {
   }
 
   write(location: number, value: number): void {
-    if (location < Memory.MEMORY_START || location > this.memory.length) {
+    if (location < Memory.MEMORY_START || location > this.maxLocation) {
       throw new Error(
-        `Memory access out of bounds: ${location} (valid range: ${Memory.MEMORY_START}-${this.memory.length})`,
+        `Memory access out of bounds: ${location} (valid range: ${Memory.MEMORY_START}-${this.maxLocation})`,
       );
     }
 
