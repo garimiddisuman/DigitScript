@@ -116,4 +116,14 @@ export class Executor implements IExecutor {
     this.stepCount = 0;
     this.halted = false;
   }
+
+  restoreState(
+    programCounter: number,
+    stepCount: number,
+    halted: boolean,
+  ): void {
+    this.programCounter = programCounter;
+    this.stepCount = stepCount;
+    this.halted = halted;
+  }
 }

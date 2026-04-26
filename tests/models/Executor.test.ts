@@ -153,4 +153,48 @@ describe("Executor", () => {
       expect(executor.isHalted()).toBe(false);
     });
   });
+
+  describe("restoreState", () => {
+    it("should restore program counter", () => {
+      executor.loadProgram([7, 10, 20, 9]);
+      executor.step();
+
+      executor.restoreState(1, 0, false);
+
+      expect(executor.getProgramCounter()).toBe(1);
+    });
+
+    it("should restore step count", () => {
+      executor.loadProgram([7, 10, 20, 9]);
+      executor.step();
+      executor.step();
+
+      executor.restoreState(4, 1, false);
+
+      expect(executor.getStepCount()).toBe(1);
+    });
+
+    it("should restore halted state", () => {
+      executor.loadProgram([9]);
+      executor.step();
+
+      expect(executor.isHalted()).toBe(true);
+
+      executor.restoreState(1, 0, false);
+
+      expect(executor.isHalted()).toBe(false);
+    });
+
+    it("should restore all state together", () => {
+      executor.loadProgram([7, 10, 20, 9]);
+      executor.step();
+      executor.step();
+
+      executor.restoreState(4, 1, true);
+
+      expect(executor.getProgramCounter()).toBe(4);
+      expect(executor.getStepCount()).toBe(1);
+      expect(executor.isHalted()).toBe(true);
+    });
+  });
 });

@@ -14,4 +14,9 @@ export interface IExecutor {
   getStepCount(): number;
   isHalted(): boolean;
   reset(): void;
+  restoreState(
+    programCounter: number,
+    stepCount: number,
+    halted: boolean,
+  ): void;
 }

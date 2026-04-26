@@ -36,9 +36,11 @@ export class ProgramState implements IProgramState {
 
   restoreState(snapshot: StateSnapshot): void {
     this.memory.restoreSnapshot(snapshot.memorySnapshot);
-    this.executor.reset();
-    // Note: This is a simplified restore. Full implementation would need
-    // to restore PC, step count, and halted state in the executor
+    this.executor.restoreState(
+      snapshot.programCounter,
+      snapshot.stepCount,
+      snapshot.halted,
+    );
   }
 
   recordStep(step: ExecutionStep): void {
@@ -74,6 +76,9 @@ export class ProgramState implements IProgramState {
     this.historyIndex--;
     const step = this.executionHistory[this.historyIndex];
     this.memory.restoreSnapshot(step.memorySnapshot);
+    // Restore executor to the state at this step
+    // stepCount is the history index, halted is false until we hit a halt
+    this.executor.restoreState(step.programCounter, this.historyIndex, false);
   }
 
   redo(): void {
@@ -84,6 +89,8 @@ export class ProgramState implements IProgramState {
     this.historyIndex++;
     const step = this.executionHistory[this.historyIndex];
     this.memory.restoreSnapshot(step.memorySnapshot);
+    // Restore executor to the state at this step
+    this.executor.restoreState(step.programCounter, this.historyIndex, false);
   }
 
   clear(): void {
