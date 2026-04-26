@@ -1,24 +1,33 @@
 {
+  "name": "digitscript",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "DigitScript Interpreter - A number-based programming language",
   "scripts": {
-  "test": "jest",
-  "test:watch": "jest --watch",
-  "test:coverage": "jest --coverage"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "ink": "^7.0.1",
-    "react": "^19.2.5"
+    "react": "^19.2.5",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.0.2",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^10.2.1",
     "jest": "^30.3.0",
     "prettier": "^3.8.3",
     "ts-jest": "^29.4.9",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vite": "^6.0.11"
   }
 }
