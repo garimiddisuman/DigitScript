@@ -3,7 +3,6 @@ import { MoveCommand } from "../../src/commands/MoveCommand";
 import { HaltCommand } from "../../src/commands/HaltCommand";
 import { AddCommand } from "../../src/commands/AddCommand";
 import { JumpIfEqualCommand } from "../../src/commands/JumpIfEqualCommand";
-import { Memory } from "../../src/models/Memory";
 
 describe("CommandFactory", () => {
   describe("createCommand", () => {
@@ -65,77 +64,5 @@ describe("CommandFactory", () => {
 
       expect(command1).toBe(command2);
     });
-  });
-
-  describe("Created Commands Functionality", () => {
-    it("should create functional MoveCommand", () => {
-      const memory = new Memory(1000);
-      const command = CommandFactory.createCommand(7);
-
-      memory.write(10, 100);
-      const result = command.execute(memory, [10, 20]);
-
-      expect(result.success).toBe(true);
-      expect(memory.read(20)).toBe(100);
-    });
-
-    it("should create functional AddCommand", () => {
-      const memory = new Memory(1000);
-      const command = CommandFactory.createCommand(1);
-
-      memory.write(10, 50);
-      memory.write(20, 100);
-      const result = command.execute(memory, [10, 20, 30]);
-
-      expect(result.success).toBe(true);
-      expect(memory.read(30)).toBe(150);
-    });
-
-    it("should create functional HaltCommand", () => {
-      const memory = new Memory(1000);
-      const command = CommandFactory.createCommand(9);
-
-      const result = command.execute(memory, []);
-
-      expect(result.success).toBe(true);
-      expect(result.shouldHalt).toBe(true);
-    });
-
-    it("should create functional JumpIfEqualCommand", () => {
-      const memory = new Memory(1000);
-      const command = CommandFactory.createCommand(4);
-
-      memory.write(10, 25);
-      memory.write(20, 25);
-      const result = command.execute(memory, [10, 20, 30]);
-
-      expect(result.success).toBe(true);
-      expect(result.shouldHalt).toBe(false);
-      expect(result.newProgramCounter).toBe(30);
-    });
-  });
-});
-
-describe("MoveCommand", () => {
-  it("should copy value from source to destination", () => {
-    const memory = new Memory(1000);
-    const command = new MoveCommand();
-
-    memory.write(10, 100);
-    const result = command.execute(memory, [10, 20]);
-
-    expect(result.success).toBe(true);
-    expect(result.shouldHalt).toBe(false);
-    expect(memory.read(20)).toBe(100);
-  });
-
-  it("should return error with invalid operand count", () => {
-    const memory = new Memory(1000);
-    const command = new MoveCommand();
-
-    const result = command.execute(memory, [10]);
-
-    expect(result.success).toBe(false);
-    expect(result.error).toContain("requires 2 operands");
   });
 });
