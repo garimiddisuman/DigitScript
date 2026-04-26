@@ -2,8 +2,8 @@ import { CommandFactory } from "../../src/commands/CommandFactory";
 import { MoveCommand } from "../../src/commands/MoveCommand";
 import { HaltCommand } from "../../src/commands/HaltCommand";
 import { AddCommand } from "../../src/commands/AddCommand";
+import { JumpIfEqualCommand } from "../../src/commands/JumpIfEqualCommand";
 import { Memory } from "../../src/models/Memory";
-
 
 describe("CommandFactory", () => {
   describe("createCommand", () => {
@@ -29,6 +29,14 @@ describe("CommandFactory", () => {
       expect(command).toBeInstanceOf(HaltCommand);
       expect(command.opcode).toBe(9);
       expect(command.operandCount).toBe(0);
+    });
+
+    it("should create JumpIfEqualCommand for opcode 4", () => {
+      const command = CommandFactory.createCommand(4);
+
+      expect(command).toBeInstanceOf(JumpIfEqualCommand);
+      expect(command.opcode).toBe(4);
+      expect(command.operandCount).toBe(3);
     });
 
     it("should throw error for unknown opcode", () => {
@@ -91,6 +99,19 @@ describe("CommandFactory", () => {
 
       expect(result.success).toBe(true);
       expect(result.shouldHalt).toBe(true);
+    });
+
+    it("should create functional JumpIfEqualCommand", () => {
+      const memory = new Memory(1000);
+      const command = CommandFactory.createCommand(4);
+
+      memory.write(10, 25);
+      memory.write(20, 25);
+      const result = command.execute(memory, [10, 20, 30]);
+
+      expect(result.success).toBe(true);
+      expect(result.shouldHalt).toBe(false);
+      expect(result.newProgramCounter).toBe(30);
     });
   });
 });

@@ -66,6 +66,21 @@ describe("Executor", () => {
       expect(executor.isHalted()).toBe(true);
       expect(executor.getStepCount()).toBe(0);
     });
+
+    it("should update program counter from jump command result", () => {
+      executor.loadProgram([4, 10, 20, 6, 9, 9]);
+      memory.write(10, 77);
+      memory.write(20, 77);
+
+      const result = executor.step();
+
+      expect(result.success).toBe(true);
+      expect(result.shouldHalt).toBe(false);
+      expect(result.newProgramCounter).toBe(6);
+      expect(executor.getProgramCounter()).toBe(6);
+      expect(executor.getStepCount()).toBe(1);
+      expect(executor.isHalted()).toBe(false);
+    });
   });
 
   describe("run", () => {
@@ -107,6 +122,22 @@ describe("Executor", () => {
       expect(result.stepCount).toBe(3);
       expect(executor.getStepCount()).toBe(3);
       expect(executor.isHalted()).toBe(false);
+    });
+
+    it("should follow a jump and skip over intervening instructions", () => {
+      executor.loadProgram([4, 10, 20, 8, 7, 10, 30, 9]);
+      memory.write(10, 9);
+      memory.write(20, 9);
+      memory.write(30, 0);
+
+      const result = executor.run();
+
+      expect(result.success).toBe(true);
+      expect(result.shouldHalt).toBe(true);
+      expect(result.stepCount).toBe(2);
+      expect(memory.read(30)).toBe(0);
+      expect(executor.getProgramCounter()).toBe(9);
+      expect(executor.isHalted()).toBe(true);
     });
   });
 
