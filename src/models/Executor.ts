@@ -2,6 +2,7 @@ import { IExecutor } from "../interfaces/IExecutor";
 import { IMemory } from "../interfaces/IMemory";
 import { CommandFactory } from "../commands/CommandFactory";
 import { ExecutionResult } from "../interfaces/ICommand";
+import { RunResult } from "../interfaces/IExecutor";
 
 export class Executor implements IExecutor {
   private memory: IMemory;
@@ -72,7 +73,7 @@ export class Executor implements IExecutor {
     }
   }
 
-  run(maxSteps: number = 10000): ExecutionResult {
+  run(maxSteps: number = 10000): RunResult {
     let lastResult: ExecutionResult = { success: true, shouldHalt: false };
 
     while (!this.halted && this.stepCount < maxSteps) {

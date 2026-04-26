@@ -5,7 +5,6 @@ export interface ExecutionResult {
   shouldHalt: boolean;
   newProgramCounter?: number;
   error?: string;
-  stepCount?: number;
 }
 
 export interface ICommand {
