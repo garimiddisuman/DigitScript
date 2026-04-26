@@ -1,5 +1,5 @@
-import { Memory } from "../../src/models/implementations/Memory";
-import { IMemory } from "../../src/models/interfaces/IMemory";
+import { Memory } from "../../src/models/Memory";
+import { IMemory } from "../../src/interfaces/IMemory";
 
 describe("Memory", () => {
   let memory: IMemory;

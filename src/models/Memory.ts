@@ -4,7 +4,7 @@ export class Memory implements IMemory {
   private memory: Int32Array;
   private static readonly MEMORY_START = 1;
 
-  constructor(size : number) {
+  constructor(size: number) {
     this.memory = new Int32Array(size + Memory.MEMORY_START);
   }
 
@@ -14,7 +14,7 @@ export class Memory implements IMemory {
         `Memory access out of bounds: ${location} (valid range: ${Memory.MEMORY_START}-${this.memory.length})`,
       );
     }
-    
+
     return this.memory[location];
   }
 
