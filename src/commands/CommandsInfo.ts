@@ -1,4 +1,4 @@
-class CommandInfo {
+export class CommandInfo {
   public readonly opcode: number;
   public readonly operandCount: number;
 
